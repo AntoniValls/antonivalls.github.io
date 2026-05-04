@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Antoni Valls — AI Research | Computer Vision | Deep Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #080c12;
+      --bg2:       #0d1420;
+      --surface:   #111926;
+      --border:    rgba(100,160,255,0.12);
+      --accent:    #4a9eff;
+      --accent2:   #7dd3fc;
+      --accent3:   #38bdf8;
+      --text:      #e2eaf6;
+      --muted:     #7a93b4;
+      --tag-bg:    rgba(74,158,255,0.1);
+      --tag-border:rgba(74,158,255,0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID BACKGROUND ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,158,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,158,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 60px;
+      background: rgba(8,12,18,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent2); }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 60px 80px;
+      overflow: hidden;
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(74,158,255,0.15), transparent 70%);
+      top: -100px; right: -100px;
+    }
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(56,189,248,0.08), transparent 70%);
+      bottom: 0; left: 200px;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 900px;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(56px, 8vw, 96px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.35s forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+
+    .hero-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.5s forwards;
+    }
+
+    .hero-bio {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #a8bfd8;
+      max-width: 620px;
+      margin-bottom: 48px;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.65s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.8s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: transparent;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--tag-border);
+      border-radius: 4px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover {
+      background: var(--tag-bg);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 48px;
+      left: 60px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 1.1s forwards;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px; height: 40px;
+      background: linear-gradient(var(--muted), transparent);
+    }
+
+    /* ─── SECTION LAYOUT ─── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 60px;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 52px);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 56px;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-meta {
+      padding-top: 4px;
+    }
+
+    .exp-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .exp-company {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .exp-role {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .exp-desc {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #9ab0cc;
+      margin-bottom: 20px;
+    }
+
+    .exp-desc li {
+      margin-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--accent2);
+    }
+
+    /* ─── SKILLS ─── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .skill-card:hover {
+      border-color: rgba(74,158,255,0.4);
+      transform: translateY(-4px);
+    }
+
+    .skill-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-card-label .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .skill-card-label .dot.dim { background: var(--muted); }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      font-size: 13px;
+      font-weight: 400;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      transition: background 0.2s;
+    }
+    .skill-pill:hover { background: var(--tag-bg); border-color: var(--tag-border); }
+
+    /* ─── EDUCATION ─── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .edu-card:hover { border-color: rgba(74,158,255,0.4); transform: translateY(-4px); }
+
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+    }
+
+    .edu-degree {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .edu-school {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .edu-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .edu-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #8aa2be;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      text-align: center;
+    }
+
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 80px 60px;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(74,158,255,0.06), transparent 60%);
+    }
+
+    .contact-email {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(24px, 3vw, 36px);
+      color: var(--accent2);
+      text-decoration: none;
+      display: block;
+      margin: 24px 0;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--text); }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .social-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .social-link:hover { color: var(--accent); border-color: var(--tag-border); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+
+      #hero { padding: 120px 24px 80px; }
+      .hero-scroll { left: 24px; }
+
+      section { padding: 72px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; }
+
+      .exp-item { grid-template-columns: 1fr; gap: 12px; }
+      .edu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">av_portfolio</a>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" style="max-width:100%; padding: 140px 60px 80px;">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Barcelona — Open to opportunities</p>
+      <h1>Antoni<br><em>Valls</em></h1>
+      <p class="hero-subtitle">AI Research &nbsp;·&nbsp; Computer Vision &nbsp;·&nbsp; Deep Learning</p>
+      <p class="hero-bio">
+        AI researcher and engineer with a background in theoretical physics and data science,
+        working on computer vision, visual localization, and vision-language models.
+        Experienced across the full pipeline from model design to real-world deployment.
+      </p>
+      <div class="hero-ctas">
+        <a href="mailto:antonivalls@proton.me" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          Get in touch
+        </a>
+        <a href="https://github.com/AntoniValls" target="_blank" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/antoni-valls-cifre" target="_blank" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <p class="hero-scroll">Scroll</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label reveal">Work Experience</p>
+    <h2 class="reveal">Where I've<br><em style="font-style:italic;color:var(--accent2)">worked</em></h2>
+
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <p class="exp-date">Apr 2025 — Present</p>
+          <p class="exp-company">IRI, CSIC – UPC<br>Barcelona</p>
+        </div>
+        <div class="exp-body">
+          <h3 class="exp-role">Robotic Engineer</h3>
+          <ul class="exp-desc">
+            <li>Participation in the <strong>SMARTGAZE II</strong> project with Biel Glasses, enhancing mobility for people with low vision through AI-powered smart glasses.</li>
+            <li>Focused on visual urban localization in dynamic environments and adaptation of state-of-the-art models for precise navigation with and without GPS.</li>
+            <li>First-authored a paper submitted to <strong>IEEE-ITS</strong> benchmarking VLMs models for assistive navigation in urban environments.</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag">Visual-Inertial Odometry</span>
+            <span class="tag">Multi-Modal LLMs</span>
+            <span class="tag">Feature Matching</span>
+            <span class="tag">Segmentation Models</span>
+            <span class="tag">Depth Estimation</span>
+            <span class="tag">SfM & 3D Reconstruction</span>
+            <span class="tag">Kalman Filters</span>
+            <span class="tag">GNSS Correction</span>
+            <span class="tag">Graph Theory</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <p class="exp-date">Apr 2024 — Oct 2024</p>
+          <p class="exp-company">IIIA – CSIC<br>Barcelona</p>
+        </div>
+        <div class="exp-body">
+          <h3 class="exp-role">Research Assistant</h3>
+          <ul class="exp-desc">
+            <li>Co-authored an NLP research project on <strong>geopolitically-informed BERT-based models</strong> for propaganda detection, with results published as a peer-reviewed article.</li>
+            <li>Collaborated on a computational sociology project investigating the influence of link-prediction algorithms on social contagion models using GNN models (GCN, GAT, SEAL) and diffusion algorithms.</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag">NLP</span>
+            <span class="tag">Deep Learning</span>
+            <span class="tag">LLMs</span>
+            <span class="tag">Generative AI</span>
+            <span class="tag">Reinforcement Learning</span>
+            <span class="tag">Graph Neural Networks</span>
+            <span class="tag">Computational Sociology</span>
+            <span class="tag">Data Analytics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <p class="exp-date">Apr 2022 — Sep 2022</p>
+          <p class="exp-company">Deloitte Advisory, S.L.</p>
+        </div>
+        <div class="exp-body">
+          <h3 class="exp-role">IT Risk Advisory Consultant</h3>
+          <p class="exp-desc" style="list-style:none;">Advisory role in IT risk management and analysis within the Deloitte Advisory division.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">Technical Stack</p>
+    <h2 class="reveal">Skills &<br><em style="font-style:italic;color:var(--accent2)">tools</em></h2>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <p class="skill-card-label"><span class="dot"></span>Advanced</p>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">R</span>
+          <span class="skill-pill">Matlab</span>
+          <span class="skill-pill">Linux</span>
+          <span class="skill-pill">Git</span>
+          <span class="skill-pill">LaTeX</span>
+          <span class="skill-pill">CUDA</span>
+          <span class="skill-pill">PowerBI</span>
+          <span class="skill-pill">Excel</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <p class="skill-card-label"><span class="dot"></span>Deep Learning</p>
+        <div class="skill-pills">
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">Scikit-Learn</span>
+          <span class="skill-pill">OpenCV</span>
+          <span class="skill-pill">NetworkX</span>
+          <span class="skill-pill">HuggingFace</span>
+          <span class="skill-pill">Transformers</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <p class="skill-card-label"><span class="dot dim"></span>Intermediate</p>
+        <div class="skill-pills">
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">Fortran</span>
+          <span class="skill-pill">LabVIEW</span>
+          <span class="skill-pill">Slurm</span>
+          <span class="skill-pill">ROS</span>
+          <span class="skill-pill">AWS</span>
+          <span class="skill-pill">Tableau</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <p class="skill-card-label"><span class="dot"></span>Research Areas</p>
+        <div class="skill-pills">
+          <span class="skill-pill">Computer Vision</span>
+          <span class="skill-pill">Visual Localization</span>
+          <span class="skill-pill">VLMs</span>
+          <span class="skill-pill">NLP</span>
+          <span class="skill-pill">Graph Neural Networks</span>
+          <span class="skill-pill">VAEs</span>
+          <span class="skill-pill">3D Reconstruction</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label reveal">Academic Background</p>
+    <h2 class="reveal">Education &<br><em style="font-style:italic;color:var(--accent2)">training</em></h2>
+
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <p class="edu-school">University of Padua</p>
+        <h3 class="edu-degree">MSc in Data Science</h3>
+        <p class="edu-date">Oct 2022 — Dec 2024 · Padua, Italy</p>
+        <p class="edu-desc">
+          Curriculum in Machine Learning for Intelligent Systems. Specialised in Computer Vision,
+          CNNs, Transformers, NLP, LLMs, and Variational Autoencoders.<br><br>
+          <strong style="color:var(--text)">Thesis:</strong> "Exploring the Effects of Graph Neural Network-Based
+          Link Prediction on Social Contagion Dynamics."
+        </p>
+      </div>
+
+      <div class="edu-card reveal">
+        <p class="edu-school">Universitat de Barcelona</p>
+        <h3 class="edu-degree">BSc in Theoretical Physics</h3>
+        <p class="edu-date">Sep 2017 — Jan 2022 · Barcelona, Spain</p>
+        <p class="edu-desc">
+          Honors in Linear Algebra and Geometry. Strong mathematical foundation in quantum mechanics,
+          statistical physics, and field theory.<br><br>
+          <strong style="color:var(--text)">End-of-degree project:</strong> Nuclear Physics — "Atomic and nuclear Ξ− bound states."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-card reveal">
+      <p class="section-label" style="justify-content:center">Let's connect</p>
+      <h2 style="margin-bottom:8px">Get in <em style="font-style:italic;color:var(--accent2)">touch</em></h2>
+      <p style="color:var(--muted);font-size:15px;margin-bottom:8px">Open to research collaborations, engineering roles, and interesting problems.</p>
+      <a href="mailto:antonivalls@proton.me" class="contact-email">antonivalls@proton.me</a>
+      <div class="social-links">
+        <a href="https://github.com/AntoniValls" target="_blank" class="social-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/antoni-valls-cifre" target="_blank" class="social-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="tel:+34629860362" class="social-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path></svg>
+          +34 629 860 362
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Antoni Valls Cifre</span>
+    <span>Barcelona, Spain</span>
+  </footer>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 4) * 80}ms`;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
