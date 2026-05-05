@@ -255,6 +255,13 @@
     .skill-pill { font-size:13px; font-weight:400; padding:6px 14px; border-radius:100px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); color:var(--text); transition:background .2s; }
     .skill-pill:hover { background:var(--tag-bg); border-color:var(--tag-border); }
 
+    /* ── INSTITUTION LOGOS ── */
+    .inst-logos { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; align-items:center; }
+    .inst-logo-wrap { background:rgba(255,255,255,0.93); border-radius:5px; padding:5px 9px; display:flex; align-items:center; justify-content:center; }
+    .inst-logo { height:20px; width:auto; object-fit:contain; display:block; }
+    html.light .inst-logo-wrap { background:#fff; border:1px solid var(--border); }
+    .edu-logos { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+
     /* ── EDUCATION ── */
     .edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
     .edu-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:36px; position:relative; overflow:hidden; transition:border-color .3s,transform .3s; }
@@ -503,7 +510,7 @@
         <div class="project-thumb-placeholder" style="display:none;"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h4l3-6 4 12 3-6h4"/></svg></div>
       </div>
       <div class="project-body">
-        <div class="project-venue"><span class="venue-name">MSc Project · University of Padua</span></div>
+        <div class="project-venue"><span class="venue-name">University of Padua</span><span class="venue-badge badge-code">Project</span></div>
         <p class="project-title">UNet-Based Model Analysis for Polyp Segmentation in Colonoscopy Images</p>
         <p class="project-authors"><strong>Antoni Valls</strong></p>
         <p class="project-desc">Comparative analysis of UNet variants (UNet++, ResUNet, Attention-UNet) for medical image segmentation of colorectal polyps. Evaluates architectural choices, augmentation strategies, and loss functions on standard colonoscopy benchmark datasets.</p>
@@ -536,7 +543,15 @@
   <h2 class="reveal">Where I've<br><em style="font-style:italic;color:var(--accent2)">worked</em></h2>
   <div class="exp-list">
     <div class="exp-item reveal">
-      <div class="exp-meta"><p class="exp-date">Apr 2025 — Present</p><p class="exp-company">IRI, CSIC – UPC<br>Barcelona</p></div>
+      <div class="exp-meta">
+        <p class="exp-date">Apr 2025 — Present</p>
+        <p class="exp-company">IRI, CSIC – UPC<br>Barcelona</p>
+        <div class="inst-logos">
+          <div class="inst-logo-wrap"><img class="inst-logo" src="images/IRI.png" alt="IRI"></div>
+          <div class="inst-logo-wrap"><img class="inst-logo" src="images/CSIC.png" alt="CSIC"></div>
+          <div class="inst-logo-wrap"><img class="inst-logo" src="images/UPC.png" alt="UPC"></div>
+        </div>
+      </div>
       <div class="exp-body">
         <h3 class="exp-role">Robotic Engineer</h3>
         <ul class="exp-desc">
@@ -548,7 +563,14 @@
       </div>
     </div>
     <div class="exp-item reveal">
-      <div class="exp-meta"><p class="exp-date">Apr 2024 — Oct 2024</p><p class="exp-company">IIIA – CSIC<br>Barcelona</p></div>
+      <div class="exp-meta">
+        <p class="exp-date">Apr 2024 — Oct 2024</p>
+        <p class="exp-company">IIIA – CSIC<br>Barcelona</p>
+        <div class="inst-logos">
+          <div class="inst-logo-wrap"><img class="inst-logo" src="images/iiia.png" alt="IIIA"></div>
+          <div class="inst-logo-wrap"><img class="inst-logo" src="images/CSIC.png" alt="CSIC"></div>
+        </div>
+      </div>
       <div class="exp-body">
         <h3 class="exp-role">Research Assistant</h3>
         <ul class="exp-desc">
@@ -559,7 +581,13 @@
       </div>
     </div>
     <div class="exp-item reveal">
-      <div class="exp-meta"><p class="exp-date">Apr 2022 — Sep 2022</p><p class="exp-company">Deloitte Advisory, S.L.<br>Barcelona</p></div>
+      <div class="exp-meta">
+        <p class="exp-date">Apr 2022 — Sep 2022</p>
+        <p class="exp-company">Deloitte Advisory, S.L.<br>Barcelona</p>
+        <div class="inst-logos">
+          <div class="inst-logo-wrap"><img class="inst-logo" src="images/deloitte.png" alt="Deloitte"></div>
+        </div>
+      </div>
       <div class="exp-body">
         <h3 class="exp-role">IT Risk Advisory Consultant</h3>
         <p class="exp-desc" style="list-style:none;">Advisory role in IT risk management and analysis within the Deloitte Advisory division,orking with Zurich CABA</p>
@@ -591,12 +619,18 @@
   <h2 class="reveal">Education &amp;<br><em style="font-style:italic;color:var(--accent2)">training</em></h2>
   <div class="edu-grid">
     <div class="edu-card reveal">
+      <div class="edu-logos">
+        <div class="inst-logo-wrap"><img class="inst-logo" src="images/unipd.png" alt="University of Padua"></div>
+      </div>
       <p class="edu-school">University of Padua</p>
       <h3 class="edu-degree">MSc in Data Science</h3>
       <p class="edu-date">Oct 2022 — Dec 2024 · Padua, Italy</p>
       <p class="edu-desc">Curriculum in Machine Learning for Intelligent Systems. Specialised in Computer Vision, CNNs, Transformers, NLP, LLMs, and Variational Autoencoders.<br><br><strong style="color:var(--text)">Thesis:</strong> "Exploring the Effects of Graph Neural Network-Based Link Prediction on Social Contagion Dynamics."</p>
     </div>
     <div class="edu-card reveal">
+      <div class="edu-logos">
+        <div class="inst-logo-wrap"><img class="inst-logo" src="images/ub.jpg" alt="Universitat de Barcelona"></div>
+      </div>
       <p class="edu-school">Universitat de Barcelona</p>
       <h3 class="edu-degree">BSc in Theoretical Physics</h3>
       <p class="edu-date">Sep 2017 — Jan 2022 · Barcelona, Spain</p>
