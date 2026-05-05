@@ -14,7 +14,7 @@
   <meta name="twitter:title" content="Antoni Valls — AI Research | Computer Vision | Deep Learning">
   <meta name="twitter:description" content="AI researcher and engineer specialising in computer vision, visual localization, and vision-language models.">
   <meta name="twitter:image" content="https://antonivalls.github.io/images/profile2.jpg">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -302,6 +302,35 @@
 
     footer { border-top:1px solid var(--border); padding:32px 60px; display:flex; justify-content:space-between; align-items:center; }
     footer span { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; }
+
+    @media (hover: hover) and (pointer: fine) {
+      body, a, button { cursor: none !important; }
+    }
+    .cursor-dot {
+      position: fixed; top: 0; left: 0;
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      opacity: 0;
+      will-change: transform;
+      transition: width .15s, height .15s, opacity .25s, background .15s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0;
+      width: 38px; height: 38px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      opacity: 0;
+      will-change: transform;
+      transition: width .35s cubic-bezier(.23,1,.32,1), height .35s cubic-bezier(.23,1,.32,1),
+                  border-color .2s, opacity .3s;
+    }
+    .cursor-dot.hovered { width: 12px; height: 12px; background: var(--accent2); }
+    .cursor-ring.hovered { width: 56px; height: 56px; border-color: var(--accent2); }
 
     @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
     .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease,transform .7s ease; }
@@ -698,6 +727,9 @@
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
 <footer>
   <span>© 2026 Antoni Valls Cifre</span>
   <span>Mallorca · Barcelona</span>
@@ -966,6 +998,38 @@
   });
 
   setLang(localStorage.getItem('lang') || 'en');
+
+  /* ── Custom cursor ── */
+  (function() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    (function loop() {
+      rx += (mx - rx) * 0.14;
+      ry += (my - ry) * 0.14;
+      dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    })();
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.opacity = '1';
+      ring.style.opacity = '0.7';
+    });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '0.7'; });
+
+    const hov = 'a, button, .project-thumb img, .inst-logo-wrap';
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(hov)) { dot.classList.add('hovered'); ring.classList.add('hovered'); }
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(hov)) { dot.classList.remove('hovered'); ring.classList.remove('hovered'); }
+    });
+  })();
 </script>
 </body>
 </html>
