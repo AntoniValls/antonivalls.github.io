@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Antoni Valls — AI Research | Computer Vision | Deep Learning</title>
+  <title>Antoni Valls </title>
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -193,18 +193,16 @@
 
     .hero-scroll {
       position: absolute; bottom: 40px; left: 60px; z-index: 3;
-      color:var(--muted);
       opacity:0; animation:fadeUp .7s ease 1s forwards;
     }
-    .hero-scroll .scroll-wheel {
-      width:22px; height:36px; border:1.5px solid currentColor; border-radius:11px;
-      display:flex; justify-content:center; padding-top:6px;
+    .scroll-arrow {
+      width:14px; height:14px;
+      border-right:2px solid var(--muted);
+      border-bottom:2px solid var(--muted);
+      transform:rotate(45deg);
+      animation:scrollBounce 1.2s ease-in-out infinite;
     }
-    .hero-scroll .scroll-dot {
-      width:2px; height:6px; background:currentColor; border-radius:1px;
-      animation:scrollDot 1.8s ease-in-out infinite;
-    }
-    @keyframes scrollDot { 0%,100%{opacity:1;transform:translateY(0)} 60%{opacity:0;transform:translateY(10px)} }
+    @keyframes scrollBounce { 0%,100%{transform:rotate(45deg) translate(0,0);opacity:.4} 50%{transform:rotate(45deg) translate(3px,3px);opacity:1} }
 
     /* ── SECTIONS ── */
     section { position:relative; z-index:1; padding:100px 60px; max-width:1140px; margin:0 auto; }
@@ -434,9 +432,7 @@
   </div>
 
   <div class="hero-scroll">
-    <div class="scroll-wheel">
-      <div class="scroll-dot"></div>
-    </div>
+    <div class="scroll-arrow"></div>
   </div>
 </section>
 
