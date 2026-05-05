@@ -193,12 +193,13 @@
 
     .hero-scroll {
       position: absolute; bottom: 40px; left: 60px; z-index: 3;
-      font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted);
-      letter-spacing:.15em; text-transform:uppercase;
-      display:flex; align-items:center; gap:10px;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      color:var(--muted);
       opacity:0; animation:fadeUp .7s ease 1s forwards;
     }
-    .hero-scroll::after { content:''; display:block; width:1px; height:40px; background:linear-gradient(var(--muted),transparent); }
+    .hero-scroll svg { animation:scrollBounce 1.8s ease-in-out infinite; }
+    .hero-scroll::after { content:''; display:block; width:1px; height:36px; background:linear-gradient(var(--muted),transparent); }
+    @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
     /* ── SECTIONS ── */
     section { position:relative; z-index:1; padding:100px 60px; max-width:1140px; margin:0 auto; }
@@ -363,7 +364,7 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">av_portfolio</a>
+  <a class="nav-logo" href="#">antoni valls</a>
   <ul class="nav-links">
     <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
     <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
@@ -427,7 +428,9 @@
     </div>
   </div>
 
-  <p class="hero-scroll" data-i18n="hero.scroll">Scroll</p>
+  <div class="hero-scroll">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
 </section>
 
 <div class="divider"></div>
