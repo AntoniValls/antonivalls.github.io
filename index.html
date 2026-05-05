@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Antoni Valls </title>
-  <link rel="icon" type="image/svg+xml" href="images/icon.svg">
+  <title>Antoni Valls — AI Research | Computer Vision | Deep Learning</title>
+  <meta name="description" content="AI researcher and engineer specialising in computer vision, visual localization, and vision-language models. Portfolio of Antoni Valls Cifre.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://antonivalls.github.io/">
+  <meta property="og:title" content="Antoni Valls — AI Research | Computer Vision | Deep Learning">
+  <meta property="og:description" content="AI researcher and engineer specialising in computer vision, visual localization, and vision-language models.">
+  <meta property="og:image" content="https://antonivalls.github.io/images/profile2.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Antoni Valls — AI Research | Computer Vision | Deep Learning">
+  <meta name="twitter:description" content="AI researcher and engineer specialising in computer vision, visual localization, and vision-language models.">
+  <meta name="twitter:image" content="https://antonivalls.github.io/images/profile2.jpg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -68,6 +78,7 @@
     .nav-links { display:flex; gap:32px; list-style:none; }
     .nav-links a { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); text-decoration:none; letter-spacing:.1em; text-transform:uppercase; transition:color .2s; }
     .nav-links a:hover { color:var(--accent2); }
+    .nav-links a.active { color:var(--accent); }
 
     /* ── HERO — split layout ── */
     #hero {
@@ -427,7 +438,6 @@
       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
     <div class="hero-right-placeholder" style="display:none;">
       <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="1" opacity=".3"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <span>Place your photo at<br>images/profile.JPG</span>
     </div>
   </div>
 
@@ -702,6 +712,20 @@
     el.style.transitionDelay = `${(i % 3) * 80}ms`;
     observer.observe(el);
   });
+
+  /* ── Active nav ── */
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(s => s && navObserver.observe(s));
 
   /* ── Typewriter ── */
   const terms = [
