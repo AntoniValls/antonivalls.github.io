@@ -275,7 +275,8 @@
 
     /* ── INSTITUTION LOGOS ── */
     .inst-logos { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; align-items:center; }
-    .inst-logo-wrap { background:rgba(255,255,255,0.93); border-radius:5px; padding:5px 9px; display:flex; align-items:center; justify-content:center; }
+    .inst-logo-wrap { background:rgba(255,255,255,0.93); border-radius:5px; padding:5px 9px; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:opacity .2s; }
+    .inst-logo-wrap:hover { opacity:0.7; }
     .inst-logo { height:20px; width:auto; object-fit:contain; display:block; }
     html.light .inst-logo-wrap { background:#fff; border:1px solid var(--border); }
     .edu-logos { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
@@ -596,9 +597,9 @@
         <p class="exp-date">Apr 2025 — Present</p>
         <p class="exp-company">IRI, CSIC – UPC<br>Barcelona</p>
         <div class="inst-logos">
-          <div class="inst-logo-wrap"><img class="inst-logo" src="images/IRI.png" alt="IRI"></div>
-          <div class="inst-logo-wrap"><img class="inst-logo" src="images/CSIC.png" alt="CSIC"></div>
-          <div class="inst-logo-wrap"><img class="inst-logo" src="images/UPC.png" alt="UPC"></div>
+          <a class="inst-logo-wrap" href="https://www.iri.upc.edu/" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/IRI.png" alt="IRI"></a>
+          <a class="inst-logo-wrap" href="https://www.csic.es/es" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/CSIC.png" alt="CSIC"></a>
+          <a class="inst-logo-wrap" href="https://www.upc.edu/es/" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/UPC.png" alt="UPC"></a>
         </div>
       </div>
       <div class="exp-body">
@@ -616,8 +617,8 @@
         <p class="exp-date">Apr 2024 — Oct 2024</p>
         <p class="exp-company">IIIA – CSIC<br>Barcelona</p>
         <div class="inst-logos">
-          <div class="inst-logo-wrap"><img class="inst-logo" src="images/iiia.png" alt="IIIA"></div>
-          <div class="inst-logo-wrap"><img class="inst-logo" src="images/CSIC.png" alt="CSIC"></div>
+          <a class="inst-logo-wrap" href="https://www.iiia.csic.es/es/" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/iiia.png" alt="IIIA"></a>
+          <a class="inst-logo-wrap" href="https://www.csic.es/es" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/CSIC.png" alt="CSIC"></a>
         </div>
       </div>
       <div class="exp-body">
@@ -634,7 +635,7 @@
         <p class="exp-date">Apr 2022 — Sep 2022</p>
         <p class="exp-company">Deloitte Advisory, S.L.<br>Barcelona</p>
         <div class="inst-logos">
-          <div class="inst-logo-wrap"><img class="inst-logo" src="images/deloitte.png" alt="Deloitte"></div>
+          <a class="inst-logo-wrap" href="https://www.deloitte.com/es/es.html" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/deloitte.png" alt="Deloitte"></a>
         </div>
       </div>
       <div class="exp-body">
@@ -677,7 +678,7 @@
     </div>
     <div class="edu-card reveal">
       <div class="edu-logos">
-        <div class="inst-logo-wrap"><img class="inst-logo" src="images/ub.png" alt="Universitat de Barcelona"></div>
+        <a class="inst-logo-wrap" href="https://web.ub.edu/ca/" target="_blank" rel="noopener noreferrer"><img class="inst-logo" src="images/ub.png" alt="Universitat de Barcelona"></a>
       </div>
       <p class="edu-school">Universitat de Barcelona</p>
       <h3 class="edu-degree" data-i18n="edu2.degree">BSc in Theoretical Physics</h3>
