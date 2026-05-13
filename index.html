@@ -203,16 +203,16 @@
     .btn-secondary:hover { background:var(--tag-bg); border-color:var(--accent); transform:translateY(-2px); }
 
     .hero-scroll {
-      position: absolute; bottom: 40px; left: 60px; z-index: 3;
-      opacity:0; animation:fadeUp .7s ease 1s forwards;
+      position: fixed; bottom: 40px; left: 60px; z-index: 100;
+      opacity: 0; cursor: pointer; transition: opacity .5s;
     }
     .scroll-arrow {
       width:14px; height:14px;
       border-right:2px solid var(--muted);
       border-bottom:2px solid var(--muted);
       transform:rotate(45deg);
-      animation:scrollBounce 1.2s ease-in-out infinite;
     }
+    .hero-scroll.bouncing .scroll-arrow { animation:scrollBounce 1.2s ease-in-out infinite; }
     @keyframes scrollBounce { 0%,100%{transform:rotate(45deg) translate(0,0);opacity:.4} 50%{transform:rotate(45deg) translate(3px,3px);opacity:1} }
 
     /* ── SECTIONS ── */
@@ -980,6 +980,29 @@
   });
 
   setLang(localStorage.getItem('lang') || 'en');
+
+  /* ── Scroll indicator ── */
+  (function () {
+    const btn = document.querySelector('.hero-scroll');
+    const targets = Array.from(document.querySelectorAll('#projects,#experience,#education,#contact'));
+
+    function update() {
+      const atBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 80;
+      btn.style.opacity = atBottom ? '0' : '1';
+      btn.style.pointerEvents = atBottom ? 'none' : '';
+      btn.classList.toggle('bouncing', window.scrollY < window.innerHeight * 0.5);
+    }
+
+    btn.addEventListener('click', () => {
+      const next = targets.find(s => s.getBoundingClientRect().top > 10);
+      if (next) next.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    setTimeout(() => {
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+    }, 1000);
+  })();
 
   /* ── Glitch cursor ── */
   (function () {
